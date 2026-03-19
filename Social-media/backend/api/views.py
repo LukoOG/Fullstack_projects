@@ -2,7 +2,7 @@
 from .auth import User
 
 #django
-from django.db.models import Q
+from django.db.models import Q, Count
 
 #rest_framework
 from rest_framework import viewsets, permissions, status, generics
@@ -127,13 +127,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
         posts = Post.objects.filter(
             Q(user__in=following) | Q(user=user)
-        ).select_related("user").prefetch_related("likes")
+        ).select_related("user").prefetch_related("like")
 
         if not posts.exists():
             posts = Post.objects.all()
 
         posts = posts.annotate(
-            likes_count=Count("likes")
+            likes_count=Count("like")
         ).order_by("-likes_count", "-date")
 
         serializer = self.get_serializer(posts, many=True)

@@ -53,10 +53,18 @@ Feed:
 ```json
 {
   "id": 1,
-  "author": "emmanuel",
-  "content": "Hello world",
-  "likes": 3,
-  "created_at": "2026-03-18T10:00:00Z"
+  "name": "Emmanuel Adesipe",
+  "first_name": "Emmanuel",
+  "last_name": "Adesipe",
+  "username": "SipeOG",
+  "bio": "The creator of this fun and vibrant platform",
+  "profile_pic": "https://res.cloudinary.com/dfxieiol1/image/upload/v1/account-images/SipeOG/slugcat_fgapvf",
+  "location": "Ikeja, Lagos, Nigeria",
+  "website": "https://www.linkedin.com/in/emmanuel-adesipe-79b901365/",
+  "joinedDate": "February 2026",
+  "following": 0,
+  "followers": 1,
+  "posts": 2
 }
 ```
 
@@ -115,5 +123,5 @@ python manage.py runserver
 * Structured project into modular Django apps
 
 ---
-
+Backend url: https://codealpha-tasks-oyzj.onrender.com/api/
 Backend Developer (Django, REST APIs)
