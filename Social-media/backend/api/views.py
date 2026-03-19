@@ -135,6 +135,12 @@ class PostViewSet(viewsets.ModelViewSet):
         posts = posts.annotate(
             likes_count=Count("like")
         ).order_by("-likes_count", "-date")
+        
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
+        # fallback (if pagination disabled)
         serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data)
