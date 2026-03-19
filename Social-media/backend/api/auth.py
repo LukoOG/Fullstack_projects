@@ -82,6 +82,7 @@ class LoginTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+        print(response)
         if response.status_code == status.HTTP_200_OK:
             data = response.data
             access = data.get("access")
@@ -106,8 +107,8 @@ class LoginTokenObtainPairView(TokenObtainPairView):
                 max_age=60 * 60 * 24 * 7,
             )
 
-            del response["access"]
-            del response["refresh"]
+            response.data.pop("access", None)
+            response.data.pop("refresh", None)
         return response
 
 

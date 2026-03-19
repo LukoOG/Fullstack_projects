@@ -15,7 +15,7 @@ def media_directory_path(instance, filename):
 class Post(models.Model):
     class Meta:
         indexes = [
-            models.Index(fields="-date")
+            models.Index(fields=["-date"])
         ]
     user = models.ForeignKey(User,
                                 related_name='user_posts',
