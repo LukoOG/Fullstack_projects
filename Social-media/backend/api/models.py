@@ -5,14 +5,18 @@ import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-today = datetime.date.today()
 
 def media_directory_path(instance, filename):
+    today = datetime.date.today()
     return 'posts/{0}/{1}/{2}'.format(today, 
                                         instance.user.username,
                                         filename)
 # Create your models here.
 class Post(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields="-date")
+        ]
     user = models.ForeignKey(User,
                                 related_name='user_posts',
                                 on_delete=models.CASCADE)
@@ -21,7 +25,7 @@ class Post(models.Model):
                              blank=True)
     message = models.CharField(null=True, max_length=255)
     date = models.DateTimeField(auto_now_add=True)
-    like = models.ManyToManyField(User, blank=True)
+    like = models.ManyToManyField(User, related_name="liked_posts", blank=True)
     
     def __str__(self):
         return f"{self.user.username} posted {self.message}"

@@ -1,11 +1,14 @@
 #
 from .auth import User
 
+#django
+from django.db.models import Q
+
 #rest_framework
 from rest_framework import viewsets, permissions, status, generics
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .serializers import UserProfileSerializer, PostSerializer
 from .models import *
@@ -88,6 +91,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.select_related("user").prefetch_related("like").all().order_by("-date")
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -95,6 +99,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if username:
             queryset = queryset.filter(user__username=username)
         return queryset
+    
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
     def toggle_like(self, request, pk=None):
         post = self.get_object()
@@ -114,3 +119,22 @@ class PostViewSet(viewsets.ModelViewSet):
             "liked":liked,
             "likes":post.like.count(),
         }, status=status.HTTP_200_OK)
+        
+@action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+def feed(self, request):
+    user = request.user
+    following = user.follows.all()
+
+    posts = Post.objects.filter(
+        Q(user__in=following) | Q(user=user)
+    ).select_related("user").prefetch_related("likes")
+
+    if not posts.exists():
+        posts = Post.objects.all()
+
+    posts = posts.annotate(
+        likes_count=Count("likes")
+    ).order_by("-likes_count", "-date")
+
+    serializer = self.get_serializer(posts, many=True)
+    return Response(serializer.data)

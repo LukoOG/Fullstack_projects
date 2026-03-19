@@ -3,5 +3,5 @@
 /media/
 db.sqlite3
 admin.txt
-./backend/settings_local.py
+# ./backend/settings_local.py
 .env.*

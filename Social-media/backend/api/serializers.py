@@ -63,7 +63,7 @@ class PostSerializer(serializers.ModelSerializer):
         
     def get_isLiked(self, obj):
         request = self.context.get('request')
-        if request.user:
+        if request and request.user.is_authenticated:
             return obj.like.filter(id=request.user.id).exists()
         return False
     def get_isReposted(self, obj):
