@@ -65,7 +65,7 @@ export const actions: Actions = {
 				body: formData
 			});
 
-			if (!res.ok) {
+			if (!res.ok || res.status !== 200) {
 				const error = await res.json();
 				return { error };
 			}

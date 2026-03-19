@@ -36,7 +36,7 @@
 	}
 
 	function goBack() {
-		history.length > 1 ? history.back() : goto('/');
+		goto(`/profile/${userData.username}`, { replaceState: true });
 	}
 
 	let disableBtn = $state<boolean>(false);
