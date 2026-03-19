@@ -5,16 +5,16 @@ import os
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+from decouple import config
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+SECRET_KEY = config("SECRET_KEY", "dev-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = config("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["codealpha-tasks-oyzj.onrender.com"]
 
@@ -82,7 +82,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False, #we do that from the frontend
     
-    "SIGNING_KEY":os.environ.get("JWT_SECRET"),
+    "SIGNING_KEY":config("JWT_SECRET"),
     "ALGORITHM": "HS256",
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
@@ -148,7 +148,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
+        default=config("DATABASE_URL"),
         conn_max_age=600,
         ssl_require=True
     )

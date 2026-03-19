@@ -120,21 +120,21 @@ class PostViewSet(viewsets.ModelViewSet):
             "likes":post.like.count(),
         }, status=status.HTTP_200_OK)
         
-@action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
-def feed(self, request):
-    user = request.user
-    following = user.follows.all()
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    def feed(self, request):
+        user = request.user
+        following = user.follows.all()
 
-    posts = Post.objects.filter(
-        Q(user__in=following) | Q(user=user)
-    ).select_related("user").prefetch_related("likes")
+        posts = Post.objects.filter(
+            Q(user__in=following) | Q(user=user)
+        ).select_related("user").prefetch_related("likes")
 
-    if not posts.exists():
-        posts = Post.objects.all()
+        if not posts.exists():
+            posts = Post.objects.all()
 
-    posts = posts.annotate(
-        likes_count=Count("likes")
-    ).order_by("-likes_count", "-date")
+        posts = posts.annotate(
+            likes_count=Count("likes")
+        ).order_by("-likes_count", "-date")
 
-    serializer = self.get_serializer(posts, many=True)
-    return Response(serializer.data)
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
