@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import favicon from '$lib/assets/twitter.png';
+	import favicon from '$lib/assets/favicon.png';
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import { page } from '$app/state';
 
