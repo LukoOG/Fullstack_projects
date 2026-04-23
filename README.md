@@ -1,1 +1,1 @@
-"Implementation of fullstack development tasks" 
+Contains my various Fullstack implementation of certain projects
