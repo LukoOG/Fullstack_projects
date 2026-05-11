@@ -1,12 +1,12 @@
+from .models import Post
+
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.dateformat import DateFormat
 
 from rest_framework import serializers
-from api.models import *
-
-user = get_user_model()
+User = get_user_model()
 
 class AuthorSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()

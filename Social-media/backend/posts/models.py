@@ -1,10 +1,11 @@
 from django.db import models
-from ..accounts.manager import User
 
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 def media_directory_path(instance, filename):
     today = datetime.date.today()

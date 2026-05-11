@@ -1,12 +1,11 @@
+from .models import User
+
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.dateformat import DateFormat
 
 from rest_framework import serializers
-from api.models import *
-
-user = get_user_model()
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
@@ -14,7 +13,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
 
     class Meta:
-        model = user
+        model = User
         fields = [
             'id', 'email', 'username', 'password'
         ]

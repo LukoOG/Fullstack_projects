@@ -1,5 +1,3 @@
-from .auth import User
-
 #django
 from django.db.models import Q, Count
 

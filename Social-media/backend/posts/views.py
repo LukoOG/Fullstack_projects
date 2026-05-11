@@ -1,5 +1,5 @@
 #
-from ..accounts.auth import User
+from accounts.models import User
 
 #django
 from django.db.models import Q, Count
@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from .serializers import UserProfileSerializer, PostSerializer
+from .serializers import PostSerializer
 from .models import *
 #rest_framework simple jwts
 
