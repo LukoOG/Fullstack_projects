@@ -3,7 +3,7 @@ from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 
-from .serializers import RegisterUserSerializer
+from ..api.serializers import RegisterUserSerializer
 
 # rest_framework
 from rest_framework import generics

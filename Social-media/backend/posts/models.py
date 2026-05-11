@@ -1,5 +1,5 @@
 from django.db import models
-from .manager import User
+from ..accounts.manager import User
 
 import datetime
 from django.db.models.signals import post_save
