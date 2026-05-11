@@ -2,12 +2,12 @@
 from django.db.models import Q, Count
 
 #rest_framework
-from rest_framework import viewsets, permissions, status, generics
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
-from .serializers import UserProfileSerializer, PostSerializer
+from .serializers import UserProfileSerializer
 from .models import *
 #rest_framework simple jwts
 

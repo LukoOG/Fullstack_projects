@@ -1,5 +1,9 @@
-from . import auth
+from . import auth, views
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r"users", views.UserProfileViewSet, basename="user")
 
 urlpatterns = [
     path("csrf", auth.get_csrf),
@@ -12,3 +16,5 @@ urlpatterns = [
         name="token_refresh",
     ),
 ]
+
+urlpatterns.append(path("", include(router.urls)))

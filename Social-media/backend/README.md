@@ -1,17 +1,21 @@
-# Social Media API (Twitter-like Backend)
+# Social Media API
 
-A RESTful backend API built with Django and Django REST Framework that powers a Twitter-like social media application. The system supports user authentication, post creation, user interactions, and personalized feeds.
+A Twitter-inspired social media backend built with Django and Django REST Framework.
+
+This API powers a social platform where users can create posts, interact with content, follow other users, and receive a personalized feed based on engagement and user relationships.
 
 ---
 
 ## Features
 
-* User registration and authentication
-* Create, update, and delete posts
-* Like posts
-* Follow and unfollow users
-* Personalized feed based on followed users
-* Pagination for efficient data loading
+* JWT authentication
+* User profiles
+* Create and manage posts
+* Like system
+* Follow / unfollow users
+* Personalized feed generation
+* Media upload support
+* Pagination for post feeds
 
 ---
 
@@ -20,31 +24,51 @@ A RESTful backend API built with Django and Django REST Framework that powers a 
 * Python
 * Django
 * Django REST Framework
-* PostgreSQL (or SQLite for development)
+* PostgreSQL
+* JWT Authentication
 
 ---
 
-## API Endpoints (Sample)
+## API Overview
 
-Authentication:
+### Authentication
 
-* POST /api/auth/register
-* POST /api/auth/login
+| Method | Endpoint              | Description       |
+| ------ | --------------------- | ----------------- |
+| POST   | `/api/auth/register/` | Register new user |
+| POST   | `/api/auth/login/`    | Authenticate user |
+| POST   | `/api/auth/logout/`   | Delete Request Cookies |
+| POST   | `/api/auth/token/refresh/` | Refresh access token |
 
-Posts:
+---
 
-* GET /api/posts
-* POST /api/posts
-* GET /api/posts/{id}
+### Posts
 
-Interactions:
+| Method | Endpoint                       | Description        |
+| ------ | ------------------------------ | ------------------ |
+| GET    | `/api/posts/feed/`             | Personalized feed(authenticated) or All feed(unauthenticated) |
+| POST   | `/api/posts/`                  | Create a new post  |
+| POST   | `/api/posts/{id}/toggle_like/` | Like/unlike post   |
 
-* POST /api/posts/{id}/like
-* POST /api/users/{id}/follow
+---
 
-Feed:
+### Users
 
-* GET /api/feed
+| Method | Endpoint                               | Description                |
+| ------ | -------------------------------------- | -------------------------- |
+| GET    | `/api/users/{username}/`               | User profile               |
+| POST   | `/api/users/{username}/toggle_follow/` | Follow/unfollow user       |
+| GET    | `/api/users/me/`                       | Current authenticated user |
+
+---
+
+## Feed Logic
+
+The personalized feed endpoint returns:
+
+* posts from followed users
+* the authenticated user’s own posts
+* results ranked by engagement and recency
 
 ---
 
@@ -53,75 +77,82 @@ Feed:
 ```json
 {
   "id": 1,
-  "name": "Emmanuel Adesipe",
-  "first_name": "Emmanuel",
-  "last_name": "Adesipe",
-  "username": "SipeOG",
-  "bio": "The creator of this fun and vibrant platform",
-  "profile_pic": "https://res.cloudinary.com/dfxieiol1/image/upload/v1/account-images/SipeOG/slugcat_fgapvf",
-  "location": "Ikeja, Lagos, Nigeria",
-  "website": "https://www.linkedin.com/in/emmanuel-adesipe-79b901365/",
-  "joinedDate": "February 2026",
-  "following": 0,
-  "followers": 1,
-  "posts": 2
+  "author": {
+    "username": "emmanuel"
+  },
+  "content": "Hello world",
+  "likes_count": 5,
+  "is_liked": true,
+  "created_at": "2026-05-11T14:00:00Z"
 }
-```
-
----
-
-## Setup Instructions
-
-1. Clone the repository
-
-```
-git clone https://github.com/yourusername/social-media-api.git
-cd social-media-api
-```
-
-2. Create virtual environment
-
-```
-python -m venv venv
-source venv/bin/activate   # Mac/Linux
-venv\Scripts\activate      # Windows
-```
-
-3. Install dependencies
-
-```
-pip install -r requirements.txt
-```
-
-4. Run migrations
-
-```
-python manage.py migrate
-```
-
-5. Start server
-
-```
-python manage.py runserver
 ```
 
 ---
 
 ## Project Structure
 
-* accounts → user authentication and profiles
-* posts → post creation and management
-* interactions → likes and follow system
+```txt
+accounts/       # authentication and user profiles
+posts/          # posts, comments, feed logic
+interactions/   # likes and follow system
+config/         # django configuration
+```
 
 ---
 
-## Key Highlights
+## Local Development
 
-* Designed relational database models for users, posts, and interactions
-* Built RESTful APIs with proper authentication and permissions
-* Implemented feed logic based on user relationships
-* Structured project into modular Django apps
+### Clone Repository
+
+```bash
+git clone https://github.com/LukoOG/Fullstack_projects.git
+```
+
+### Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+SECRET_KEY=your_secret_key
+DEBUG=True
+```
+
+### Run Migrations
+
+```bash
+python manage.py migrate
+```
+
+### Start Development Server
+
+```bash
+python manage.py runserver
+```
 
 ---
-Backend url: https://codealpha-tasks-oyzj.onrender.com/api/
-Backend Developer (Django, REST APIs)
+
+## Future Improvements
+
+* Redis caching
+* Real-time notifications
+* WebSocket chat
+* Feed recommendation algorithm
+* Docker support
+
+---
+
+## Author
+
+Emmanuel Adesipe
