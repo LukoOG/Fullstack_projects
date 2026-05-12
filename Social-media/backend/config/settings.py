@@ -18,24 +18,24 @@ DEBUG = config("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["codealpha-tasks-oyzj.onrender.com"]
 
-#Logging
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'level': 'INFO',  # Change to INFO for less verbosity
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': 'INFO',  # Change to INFO or ERROR for less verbosity
-#             'propagate': True,
-#         },
-#     },
-# }
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',  # Change to INFO for less verbosity
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Change to INFO or ERROR for less verbosity
+            'propagate': True,
+        },
+    },
+}
 
 # Application definition
 
