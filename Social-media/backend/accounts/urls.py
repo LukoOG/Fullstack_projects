@@ -2,6 +2,8 @@ from . import auth, views
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+# app_name = "accounts"
+
 router = DefaultRouter()
 router.register(r"users", views.UserProfileViewSet, basename="user")
 

@@ -5,10 +5,13 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/",
+    path(
+        "api/",
         include(
-            path("auth/", include("accounts.urls")),
-            path("posts/", include("posts.urls")),
+            [
+                path("auth/", include("accounts.urls")),
+                path("posts/", include("posts.urls")),
+            ]
         ),
     ),
 ]
