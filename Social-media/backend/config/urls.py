@@ -10,7 +10,7 @@ urlpatterns = [
         include(
             [
                 # path("auth/", include("accounts.urls")), to separate auth and users
-                path("auth/", include("accounts.urls")),
+                path("", include("accounts.urls")),
                 path("posts/", include("posts.urls")),
             ]
         ),
