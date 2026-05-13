@@ -25,11 +25,11 @@ class PostSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(source="user", read_only=True)
     content = serializers.CharField(source="message")
     created_at = serializers.DateTimeField(source="date", format="%Y-%m-%dT%H:%M:%SZ", read_only=True)
-    likesCount = serializers.SerializerMethodField()
-    repostsCount = serializers.SerializerMethodField()
-    repliesCount = serializers.SerializerMethodField()
-    isLiked = serializers.SerializerMethodField()
-    isReposted = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
+    reposts_count = serializers.SerializerMethodField()
+    replies_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
+    is_reposted = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     media = serializers.FileField(write_only=True, required=False)
     class Meta:
@@ -39,11 +39,11 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "content",
             "created_at",
-            "likesCount",
-            "repostsCount",
-            "repliesCount",
-            "isLiked",
-            "isReposted",
+            "likes_count",
+            "reposts_count",
+            "replies_count",
+            "is_liked",
+            "is_reposted",
             "image",
             "media",
         ]
@@ -52,21 +52,21 @@ class PostSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         validated_data["user"] = request.user
         return super().create(validated_data)
-    def get_likesCount(self, obj):
+    def get_likes_count(self, obj):
         return obj.like.count()
         
-    def get_repostsCount(self, obj):
+    def get_reposts_count(self, obj):
         return 0
     
-    def get_repliesCount(self, obj):
+    def get_replies_count(self, obj):
         return obj.post_comments.count()
         
-    def get_isLiked(self, obj):
+    def get_is_liked(self, obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return obj.like.filter(id=request.user.id).exists()
         return False
-    def get_isReposted(self, obj):
+    def get_is_reposted(self, obj):
         return False
         
     def get_image(self, obj):

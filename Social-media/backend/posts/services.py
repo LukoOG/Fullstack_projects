@@ -10,7 +10,7 @@ def get_posts_by_username(username=None):
     """
     queryset = (
         Post.objects.select_related("user")
-        .prefetch_related("like")
+        .prefetch_related("likes")
         .all()
         .order_by("-date")
     )
@@ -51,6 +51,6 @@ def get_user_feed(user: User):
     else:
         posts = Post.objects.all()
 
-    posts = posts.select_related("user").prefetch_related("likes")
+    posts = posts.select_related("user").prefetch_related("like")
     posts = posts.annotate(likes_count=Count("like")).order_by("-likes_count", "-date")
     return posts

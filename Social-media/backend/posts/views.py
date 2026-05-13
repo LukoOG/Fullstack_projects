@@ -16,17 +16,10 @@ from . import services
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = (
-        Post.objects.select_related("user")
-        .prefetch_related("like")
-        .all()
-        .order_by("-date")
-    )
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
         username = self.request.query_params.get("username")
         return services.get_posts_by_username(username)
 
