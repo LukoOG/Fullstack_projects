@@ -28,7 +28,7 @@ def toggle_post_like(post, user):
         post.likes.remove(user)
         liked = False
     else:
-        post.like.add(user)
+        post.likes.add(user)
         liked = True
 
     post.save()
