@@ -34,6 +34,7 @@ export const actions: Actions = {
 
 		// 1. Read form data
 		const formData = await request.formData();
+		console.log(formData)
 
 		const file = formData.get('profile_pic');
 

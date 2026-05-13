@@ -135,6 +135,7 @@
 						id="bio"
 						placeholder="Tell people about yourself"
 						class="min-h-25"
+						name="bio"
 						rows={4}
 						value={userData.bio}
 					/>
