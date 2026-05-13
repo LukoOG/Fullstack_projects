@@ -24,8 +24,8 @@ def toggle_post_like(post, user):
     Toggles the like of a post for a user.
     Returns a dict with liked status and total likes.
     """
-    if post.like.filter(id=user.id).exists():
-        post.like.remove(user)
+    if post.likes.filter(id=user.id).exists():
+        post.likes.remove(user)
         liked = False
     else:
         post.like.add(user)
@@ -34,7 +34,7 @@ def toggle_post_like(post, user):
     post.save()
     return {
         "liked": liked,
-        "likes": post.like.count(),
+        "likes": post.likes.count(),
     }
 
 
@@ -51,6 +51,6 @@ def get_user_feed(user: User):
     else:
         posts = Post.objects.all()
 
-    posts = posts.select_related("user").prefetch_related("like")
-    posts = posts.annotate(likes_count=Count("like")).order_by("-likes_count", "-date")
+    posts = posts.select_related("user").prefetch_related("likes")
+    posts = posts.annotate(likes_count=Count("likes")).order_by("-likes_count", "-date")
     return posts

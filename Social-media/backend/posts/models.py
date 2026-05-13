@@ -26,7 +26,7 @@ class Post(models.Model):
                              blank=True)
     message = models.CharField(null=True, max_length=255)
     date = models.DateTimeField(auto_now_add=True)
-    like = models.ManyToManyField(User, related_name="liked_posts", blank=True)
+    likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)
     
     def __str__(self):
         return f"{self.user.username} posted {self.message}"
