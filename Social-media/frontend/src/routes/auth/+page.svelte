@@ -30,6 +30,10 @@
 	function goBack() {
 		history.length > 1 ? history.back() : goto("/");
 	}
+
+	function setIsLogin(value: boolean){
+		isLogin = value
+	}
 	
 </script>
 
@@ -91,7 +95,7 @@
 		<!-- Footer -->
 		<div class="text-center text-sm text-muted-foreground">
 			<p>{isLogin ? "Don't have an account? " : "Already have an account? "}
-				<button onClick={() => setIsLogin(!isLogin)} class="text-primary hover:underline font-medium">
+				<button onclick={() => setIsLogin(!isLogin)} class="text-primary hover:underline font-medium">
 					{isLogin ? "Sign up" : "Sign in"}
 				</button>
 			</p>

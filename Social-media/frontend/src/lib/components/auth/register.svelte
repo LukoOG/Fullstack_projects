@@ -12,6 +12,18 @@
 	let password2 = $state<string>('');
 	let agreeToTerms = $state(false);
 
+	let username = $state('');
+
+	let usernameHasAt = $derived(username.includes('@'));
+
+	let usernameInvalidChars = $derived(username.length > 0 && !/^[a-zA-Z0-9_]+$/.test(username));
+
+	let usernameTooShort = $derived(username.length > 0 && username.length < 3);
+
+	let usernameValid = $derived(
+		username.length >= 3 && !/[@]/.test(username) && /^[a-zA-Z0-9_]+$/.test(username)
+	);
+
 	// Django's default password validation:
 	// - At least 8 characters
 	// - Not entirely numeric
@@ -23,13 +35,32 @@
 	);
 	let passwordMismatch = $derived(password2.length > 0 && password1 !== password2);
 
-	let disableSubmit = $derived(!agreeToTerms || !passwordMatch || !passwordValid);
+	let disableSubmit = $derived(!usernameValid || !agreeToTerms || !passwordMatch || !passwordValid);
 	$inspect(password2);
 </script>
 
+{#if usernameHasAt}
+	<p class="text-sm text-red-500">Username cannot contain @</p>
+{/if}
+
+{#if usernameInvalidChars}
+	<p class="text-sm text-red-500">Only letters, numbers and underscores allowed</p>
+{/if}
+
+{#if usernameTooShort}
+	<p class="text-sm text-red-500">Username must be at least 3 characters</p>
+{/if}
+
 <div class="space-y-2">
 	<Label.Root htmlFor="username">Username</Label.Root>
-	<Input id="username" type="text" name="username" placeholder="Choose a username" required />
+	<Input
+		bind:value={username}
+		id="username"
+		type="text"
+		name="username"
+		placeholder="Choose a username"
+		required
+	/>
 </div>
 
 <div class="space-y-2">
