@@ -7,8 +7,8 @@
 	import { enhance } from "$app/forms";
 	
 	let { post } = $props()
-	let isLiked = $state<boolean>(post.isLiked)
-	let likesCount = $state<number>(post.likesCount)
+	let isLiked = $state<boolean>(post.is_liked)
+	let likesCount = $state<number>(post.likes_count)
 	
 	//$inspect(isLiked)
 	
@@ -23,8 +23,8 @@
 			await update();
 
 			const { liked, likes } = result
-			isLiked = liked ?? isLiked
-			likesCount = likes ?? likesCount
+			isLiked = liked ?? is_liked
+			likesCount = likes ?? likes_count
 		}
 	}
 </script>
