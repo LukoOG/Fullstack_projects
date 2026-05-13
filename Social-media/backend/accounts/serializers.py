@@ -7,6 +7,13 @@ from django.utils.dateformat import DateFormat
 
 from rest_framework import serializers
 
+
+import re
+from django.contrib.auth.hashers import make_password
+from rest_framework import serializers
+from .models import User
+
+
 class RegisterUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(required=True)
@@ -14,15 +21,35 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
-            'id', 'email', 'username', 'password'
-        ]
+        fields = ["id", "email", "username", "password"]
+
+    def validate_username(self, value):
+        value = value.strip().lower()
+
+        if "@" in value:
+            raise serializers.ValidationError(
+                "Username cannot contain @ symbol."
+            )
+
+        if not re.match(r"^[a-zA-Z0-9_]+$", value):
+            raise serializers.ValidationError(
+                "Username can only contain letters, numbers and underscores."
+            )
+
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(
+                "Username already exists."
+            )
+
+        return value
+
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data.get('password'))
-        return super(RegisterUserSerializer, self).create(validated_data)
-        # password = validated_data.pop('password')
-        # user = User.objects.create(**validated_date)
-        # return user
+        validated_data["password"] = make_password(
+            validated_data["password"]
+        )
+
+        return super().create(validated_data)
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
