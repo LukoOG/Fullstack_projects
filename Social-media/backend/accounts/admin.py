@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from accounts.models import User
-from posts.models import *
 
 # Register your models here.
 @admin.register(User)
@@ -30,6 +29,3 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
     
-admin.site.register(Post)
-admin.site.register(Comment)
-admin.site.register(Reply)

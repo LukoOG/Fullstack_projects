@@ -120,15 +120,6 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-### Configure Environment Variables
-
-Create a `.env` file:
-
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
-```
-
 ### Run Migrations
 
 ```bash
@@ -152,7 +143,3 @@ python manage.py runserver
 * Docker support
 
 ---
-
-## Author
-
-Emmanuel Adesipe
